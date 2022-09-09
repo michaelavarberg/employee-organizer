@@ -4,16 +4,16 @@ VALUES ("Analysts"),
         ("Technology");
 
 
-INSERT INTO role (title, salary, department_id)
-VALUES ("Junior Analyst", "$80,000", 1),
-        ("Senior Analyst", "$120,000", 1),
-        ("Head of Analytics", "$150,000", 1),
-        ("Junior Sales Rep", "$60,000", 2),
-        ("Senior Sales Rep", "$95,000", 2),
-        ("Head of Sales", "$130,000", 2),
-        ("Junior Technical Engineer", "$100,000", 3),
-        ("Senior Technical Engineer", "$150,000", 3);
-        ("Head of Technical Engineers", "$175,000", 3);
+INSERT INTO roles (title, salary, department_id)
+VALUES ("Junior Analyst", 80000, 1),
+        ("Senior Analyst", 120000, 1),
+        ("Head of Analytics", 150000, 1),
+        ("Junior Sales Rep", 60000, 2),
+        ("Senior Sales Rep", 95000, 2),
+        ("Head of Sales", 130000, 2),
+        ("Junior Technical Engineer", 100000, 3),
+        ("Senior Technical Engineer", 150000, 3),
+        ("Head of Technical Engineers", 175000, 3);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id) 
 VALUES ("Mary", "Smith", 9, NULL),
