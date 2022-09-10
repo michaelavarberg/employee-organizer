@@ -13,7 +13,7 @@ VALUES ("Junior Analyst", 80000, 1),
         ("Head of Sales", 130000, 2),
         ("Junior Technical Engineer", 100000, 3),
         ("Senior Technical Engineer", 150000, 3),
-        ("Head of Technical Engineers", 175000, 3);
+        ("Head of Technology", 175000, 3);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id) 
 VALUES ("Mary", "Smith", 9, NULL),
