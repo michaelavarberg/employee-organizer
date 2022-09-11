@@ -44,6 +44,7 @@ function menu() {
       },
     ])
     .then((response) => {
+      console.log(response);
       if (response.menu === "View All Employees") {
         db.query("SELECT * FROM employee", function (err, results) {
           console.table(results);
@@ -85,52 +86,99 @@ function menu() {
               choices: ["None", "Mary Smith", "Alex Brown", "Ron Clark"],
             },
           ])
-          .then((response) => {
-            const roleId = db.query(
+          .then((data) => {
+            console.log(data);
+            db.query(
               `SELECT id FROM roles WHERE title = (?)`,
-              [response.role],
+              [data.role],
               function (err, results) {
-                console.log("Found id!");
+                const roleId = results[0].id;
+                const managerName = data.manager.split(" ");
+                managerName.splice(1, 1);
+
+                db.query(
+                  `SELECT id FROM employee WHERE first_name = (?)`,
+                  [managerName.toString()],
+                  function (err, results, roleId) {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      db.query(
+                        `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`,
+                        [data.first, data.last, roleId, results[0].id],
+                        function (err, results) {
+                          console.log(data.first);
+                          console.log(data.last);
+                          console.log(roleId);
+                          console.log(results);
+
+                          console.log(
+                            "New employee has been added to the database."
+                          );
+                          menu();
+                        }
+                      );
+                    }
+                  }
+                );
               }
             );
-            console.log(roleId);
+
+            // console.log(managerName);
             // db.query(
-            //   `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (${response.first}, ${response.last}, ${roleID}, ${manager})`
-            // );
+            //   `SELECT id FROM employee WHERE first_name = (?)`,
+            //   [managerName.toString()],
+            //   function (err, results) {
+            //     if (err) {
+            //       console.log(err);
+            //     } else {
+            //       console.log(results);
+            //       db.query(
+            //         `INSERT INTO employee (manager_id) VALUE (?)`,
+            //         [results[0].id],
+            //         function (err, results) {
+            //           console.log(
+            //             "Your new employee has been added to the database."
+            //           );
+            //           menu();
           });
-        //     db.query("", function (err, results) {
-        //       console.table(results);
-        //       menu();
-        //     });
-        //   } else if (response.menu === "") {
-        //     db.query("", function (err, results) {
-        //       console.table(results);
-        //       menu();
-        //     });
-        //   } else if (response.menu === "View All Roles") {
-        //     db.query(
-        //       "SELECT id, title, salary FROM roles",
-        //       function (err, results) {
-        //         console.table(results);
-        //         menu();
-        //       }
-        //     );
-        //   } else if (response.menu === "") {
-        //     db.query("", function (err, results) {
-        //       console.table(results);
-        //       menu();
-        //     });
-        //   } else if (response.menu === "View All Departments") {
-        //     db.query("SELECT * FROM department", function (err, results) {
-        //       console.table(results);
-        //       menu();
-        //     });
-        //   } else if (response.menu === "") {
-        //     db.query("", function (err, results) {
-        //       console.table(results);
-        //       menu();
-        //     });
       }
+      // }
+      //         );
+      //       });
+      //   }
+      //     db.query("", function (err, results) {
+      //       console.table(results);
+      //       menu();
+      //     });
+      //   } else if (response.menu === "") {
+      //     db.query("", function (err, results) {
+      //       console.table(results);
+      //       menu();
+      //     });
+      //   } else if (response.menu === "View All Roles") {
+      //     db.query(
+      //       "SELECT id, title, salary FROM roles",
+      //       function (err, results) {
+      //         console.table(results);
+      //         menu();
+      //       }
+      //     );
+      //   } else if (response.menu === "") {
+      //     db.query("", function (err, results) {
+      //       console.table(results);
+      //       menu();
+      //     });
+      //   } else if (response.menu === "View All Departments") {
+      //     db.query("SELECT * FROM department", function (err, results) {
+      //       console.table(results);
+      //       menu();
+      //     });
+      //   } else if (response.menu === "") {
+      //     db.query("", function (err, results) {
+      //       console.table(results);
+      //       menu();
+      //     });
     });
 }
 
